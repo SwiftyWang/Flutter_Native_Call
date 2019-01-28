@@ -69,6 +69,7 @@ class ListWidget extends StatelessWidget {
       title: 'Cart Page',
       theme: new ThemeData(
         primarySwatch: Colors.orange,
+        brightness: Brightness.light,
       ),
       home: new InternalCartPage(),
       debugShowCheckedModeBanner: false,
@@ -105,42 +106,44 @@ class _InternalCartPageState extends State<InternalCartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new EasyRefresh(
-      key: _easyRefreshKey,
-      autoLoad: true,
-      refreshHeader: new PhoenixHeader(key: _headerKey),
-      refreshFooter: new PhoenixFooter(key: _footerKey),
-      behavior: ScrollOverBehavior(),
-      child: new ListView.builder(
+    return new Scaffold(
+      body: new EasyRefresh(
+        key: _easyRefreshKey,
+        autoLoad: true,
+        refreshHeader: new PhoenixHeader(key: _headerKey),
+        refreshFooter: new PhoenixFooter(key: _footerKey),
+        behavior: ScrollOverBehavior(),
+        child: new ListView.builder(
           //ListView的Item
-          itemCount: datas.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new Container(
-                height: 70.0,
-                child: Card(
-                  child: new Center(
-                    child: new Text(
-                      datas[index].toString(),
-                      style: new TextStyle(fontSize: 18.0),
+            itemCount: datas.length,
+            itemBuilder: (BuildContext context, int index) {
+              return new Container(
+                  height: 70.0,
+                  child: Card(
+                    child: new Center(
+                      child: new Text(
+                        datas[index].toString(),
+                        style: new TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                  ),
-                ));
-          }),
-      onRefresh: () async {
-        await new Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            datas.clear();
-            datas.addAll(genData(page = 0));
+                  ));
+            }),
+        onRefresh: () async {
+          await new Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              datas.clear();
+              datas.addAll(genData(page = 0));
+            });
           });
-        });
-      },
-      loadMore: () async {
-        await new Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            datas.addAll(genData(++page));
+        },
+        loadMore: () async {
+          await new Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              datas.addAll(genData(++page));
+            });
           });
-        });
-      },
+        },
+      ),
     );
   }
 

@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import io.flutter.facade.Flutter;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -14,13 +16,21 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
 class Cart implements PlatformView, MethodChannel.MethodCallHandler {
-    private FrameLayout mCartView;
+    private LinearLayout mCartView;
     int i = 0;
 
     Cart(FragmentActivity fragmentActivity, Context context, BinaryMessenger messenger, int i, Object o) {
-        mCartView = new FrameLayout(context);
+        mCartView = new LinearLayout(context);
+        mCartView.setOrientation(LinearLayout.VERTICAL);
         mCartView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mCartView.setBackgroundColor(Color.GREEN);
+
+        TextView textView = new TextView(context);
+        textView.setText("This text is from Android native view");
+        textView.setBackgroundColor(Color.BLUE);
+        textView.setTextColor(Color.WHITE);
+        textView.setPadding(20, 20, 20, 20);
+        
+        mCartView.addView(textView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         View flutterView = Flutter.createView(fragmentActivity, fragmentActivity.getLifecycle(), "route1");
         FrameLayout.LayoutParams layout = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
